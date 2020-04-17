@@ -51,7 +51,8 @@ class ResumeEducation(models.Model):
 
 
 class ResumeSkill(models.Model):
-    skill = models.ManyToManyField(Skill, related_name='skill')
+    resume = models.ForeignKey(Resume, on_delete=models.CASCADE, related_name='resume_skill')
+    skill = models.ForeignKey(Skill, on_delete=models.CASCADE, related_name='skill')
     level = models.PositiveIntegerField(default=5)
 
     def __str__(self):
