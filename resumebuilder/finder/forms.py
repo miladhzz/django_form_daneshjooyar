@@ -1,18 +1,17 @@
 from django import forms
-from django.core import validators
 
 
 attr = {'class': 'form-control'}
 
 
-def check_name_length(value):
-    if len(value) > 10:
-        raise forms.ValidationError("The name is long.")
-
-
 class ContactForm(forms.Form):
     name = forms.CharField(widget=forms.TextInput(attrs=attr),
-                           validators=[check_name_length])
+                           max_length=20, min_length=5,
+                           error_messages={
+                               'required': 'Please enter name',
+                               'min_length': 'نام وارد شده کوتاه است',
+                               'max_length': 'The name is long.'
+                           })
     family = forms.CharField(widget=forms.TextInput(attrs=attr))
     email = forms.EmailField(widget=forms.EmailInput(attrs=attr))
     retype_email = forms.EmailField(widget=forms.EmailInput(attrs=attr))
