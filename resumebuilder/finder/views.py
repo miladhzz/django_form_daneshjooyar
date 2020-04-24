@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from . import forms
+from . import models
 
 
 def index(request):
@@ -12,4 +13,5 @@ def contact(request):
         form = forms.ContactForm(request.POST)
         if form.is_valid():
             print("welcome {}".format(form.cleaned_data['name']))
+            form.save()
     return render(request, 'contact.html', {'form': form})
