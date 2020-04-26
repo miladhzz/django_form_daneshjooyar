@@ -4,7 +4,10 @@ from . import forms
 
 def create_resume(request):
     form = forms.ResumeForm()
-
+    if request.method == 'POST':
+        form = forms.ResumeForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
     return render(request, 'create_resume.html', {'form': form})
 
 

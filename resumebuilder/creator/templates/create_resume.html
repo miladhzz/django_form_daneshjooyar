@@ -6,7 +6,7 @@
     <h1>Create Resume</h1>
     <hr />
     {{ form.non_field_errors }}
-    <form action="" method="post" novalidate>
+    <form enctype="multipart/form-data" action="" method="post" novalidate>
         {% for field in form %}
             <div class="form-group">
                 {{ field.label_tag }}
@@ -15,8 +15,12 @@
             </div>
         {% endfor %}
         {% csrf_token %}
-        <input class="btn btn-primary" type="submit" value="Send">
+        <input class="btn btn-primary" type="submit" value="Save">
 
     </form>
+    <hr />
+    <div class="d-flex flex-row-reverse">
+        <a class="btn btn-primary" href="{% url 'creator:create_resume_educations' %}">Next</a>
+    </div>
 
 {% endblock %}

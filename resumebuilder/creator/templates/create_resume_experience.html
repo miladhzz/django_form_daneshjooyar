@@ -15,8 +15,11 @@
             </div>
         {% endfor %}
         {% csrf_token %}
-        <input class="btn btn-primary" type="submit" value="Send">
+        <input class="btn btn-primary" type="submit" value="Save">
 
     </form>
-
+    <hr />
+    <div class="d-flex flex-row">
+        <a class="btn btn-primary" href="{% url 'creator:create_resume_skills' %}">Previous</a>
+    </div>
 {% endblock %}

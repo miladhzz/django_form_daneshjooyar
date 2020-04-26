@@ -36,7 +36,7 @@ class Resume(models.Model):
     linkedin_url = models.URLField(blank=True)
 
     def __str__(self):
-        return self.user.id
+        return str(self.user.id)
 
 
 class ResumeEducation(models.Model):
