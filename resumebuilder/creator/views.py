@@ -1,5 +1,8 @@
-from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404
 from . import forms
+from . import models
+from django.urls import reverse
 
 
 def create_resume(request):
@@ -7,7 +10,14 @@ def create_resume(request):
     if request.method == 'POST':
         form = forms.ResumeForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            resume = form.save()
+            return HttpResponseRedirect(reverse('creator:edit_resume', args=(resume.id, )))
+    return render(request, 'create_resume.html', {'form': form})
+
+
+def edit_resume(request, resume_id):
+    resume = get_object_or_404(models.Resume, id=resume_id)
+    form = forms.ResumeForm(instance=resume)
     return render(request, 'create_resume.html', {'form': form})
 
 
