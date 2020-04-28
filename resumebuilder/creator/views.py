@@ -30,6 +30,7 @@ def create_resume_education(request, resume_id):
         form = forms.ResumeEducationForm(request.POST)
         if form.is_valid():
             form.save()
+            form = forms.ResumeEducationForm()
 
     return render(request, 'create_resume_education.html',
                   {'form': form,
@@ -46,6 +47,7 @@ def create_resume_skill(request, resume_id):
         form = forms.ResumeSkillForm(request.POST)
         if form.is_valid():
             form.save()
+            form = forms.ResumeSkillForm()
 
     return render(request, 'create_resume_skill.html',
                   {'form': form,
@@ -62,6 +64,7 @@ def create_resume_experience(request, resume_id):
         form = forms.ResumeExperienceForm(request.POST)
         if form.is_valid():
             form.save()
+            form = forms.ResumeExperienceForm()
 
     return render(request, 'create_resume_experience.html',
                   {'form': form,
