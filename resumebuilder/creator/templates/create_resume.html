@@ -1,9 +1,16 @@
 {% extends 'base.html' %}
-{% block title %} Create {% endblock %}
-{% block header %} Create {% endblock %}
+{% block title %} {{ form.instance.id|default:'Create' }} {% endblock %}
+{% block header %} {{ form.instance.id|default:'Create' }} {% endblock %}
 {% block body %}
 
-    <h1>Create Resume</h1>
+    <h1>
+    {% if form.instance.name %}
+        Edit
+        {% else %}
+        Create
+    {% endif %}
+        Resume
+    </h1>
     <hr />
     {{ form.non_field_errors }}
     <form enctype="multipart/form-data" action="" method="post" novalidate>
@@ -20,7 +27,11 @@
     </form>
     <hr />
     <div class="d-flex flex-row-reverse">
-        <a class="btn btn-primary" href="{% url 'creator:create_resume_educations' %}">Next</a>
+    {% if form.instance.name %}
+        <a class="btn btn-primary"
+           href="{% url 'creator:create_resume_educations' resume_id=form.instance.id %}">Next</a>
+        {% else %}
+    {% endif %}
     </div>
 
 {% endblock %}

@@ -6,7 +6,7 @@ app_name = 'creator'
 urlpatterns = [
     path('', views.create_resume, name='create_resume'),
     path('<int:resume_id>/', views.edit_resume, name='edit_resume'),
-    path('educations/', views.create_resume_education, name='create_resume_educations'),
-    path('skills/', views.create_resume_skill, name='create_resume_skills'),
-    path('experiences/', views.create_resume_experience, name='create_resume_experiences'),
+    path('educations/<int:resume_id>/', views.create_resume_education, name='create_resume_educations'),
+    path('skills/<int:resume_id>/', views.create_resume_skill, name='create_resume_skills'),
+    path('experiences/<int:resume_id>/', views.create_resume_experience, name='create_resume_experiences'),
 ]

@@ -5,6 +5,29 @@
 
     <h1>Resume Experiences</h1>
     <hr />
+    <div class="row">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Company</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Working Now</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for experience in experiences %}
+                <tr>
+                    <td>{{ experience.company }}</td>
+                    <td>{{ experience.start_date }}</td>
+                    <td>{{ experience.end_date }}</td>
+                    <td>{{ experience.working_now }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
     {{ form.non_field_errors }}
     <form action="" method="post" novalidate>
         {% for field in form %}
@@ -20,6 +43,7 @@
     </form>
     <hr />
     <div class="d-flex flex-row">
-        <a class="btn btn-primary" href="{% url 'creator:create_resume_skills' %}">Previous</a>
+        <a class="btn btn-primary"
+           href="{% url 'creator:create_resume_skills' resume_id=resume_id %}">Previous</a>
     </div>
 {% endblock %}

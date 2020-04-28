@@ -62,6 +62,6 @@ class ResumeSkill(models.Model):
 class ResumeExperience(models.Model):
     resume = models.ForeignKey(Resume, on_delete=models.CASCADE, related_name='resume_experience')
     company = models.CharField(max_length=50)
-    start_date = models.DateTimeField(blank=True)
-    end_date = models.DateTimeField(blank=True)
+    start_date = models.DateField(blank=True)
+    end_date = models.DateField(blank=True)
     working_now = models.BooleanField(default=False)

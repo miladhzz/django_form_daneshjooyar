@@ -21,19 +21,49 @@ def edit_resume(request, resume_id):
     return render(request, 'create_resume.html', {'form': form})
 
 
-def create_resume_education(request):
+def create_resume_education(request, resume_id):
+    resume = get_object_or_404(models.Resume, id=resume_id)
+    educations = models.ResumeEducation.objects.filter(resume=resume)
+    print(educations)
     form = forms.ResumeEducationForm()
+    if request.method == 'POST':
+        form = forms.ResumeEducationForm(request.POST)
+        if form.is_valid():
+            form.save()
 
-    return render(request, 'create_resume_education.html', {'form': form})
+    return render(request, 'create_resume_education.html',
+                  {'form': form,
+                   'educations': educations,
+                   'resume_id': resume.id})
 
 
-def create_resume_skill(request):
+def create_resume_skill(request, resume_id):
+    resume = get_object_or_404(models.Resume, id=resume_id)
+    skills = models.ResumeSkill.objects.filter(resume=resume)
+    print(skills)
     form = forms.ResumeSkillForm()
+    if request.method == 'POST':
+        form = forms.ResumeSkillForm(request.POST)
+        if form.is_valid():
+            form.save()
 
-    return render(request, 'create_resume_skill.html', {'form': form})
+    return render(request, 'create_resume_skill.html',
+                  {'form': form,
+                   'skills': skills,
+                   'resume_id': resume.id})
 
 
-def create_resume_experience(request):
+def create_resume_experience(request, resume_id):
+    resume = get_object_or_404(models.Resume, id=resume_id)
+    experiences = models.ResumeExperience.objects.filter(resume=resume)
+    print(experiences)
     form = forms.ResumeExperienceForm()
+    if request.method == 'POST':
+        form = forms.ResumeExperienceForm(request.POST)
+        if form.is_valid():
+            form.save()
 
-    return render(request, 'create_resume_experience.html', {'form': form})
+    return render(request, 'create_resume_experience.html',
+                  {'form': form,
+                   'experiences': experiences,
+                   'resume_id': resume.id})
