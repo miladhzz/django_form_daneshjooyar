@@ -11,16 +11,16 @@ class ResumeForm(forms.ModelForm):
 class ResumeEducationForm(forms.ModelForm):
     class Meta:
         model = models.ResumeEducation
-        fields = '__all__'
+        exclude = ('resume', )
 
 
 class ResumeSkillForm(forms.ModelForm):
     class Meta:
         model = models.ResumeSkill
-        fields = '__all__'
+        fields = ('skill', 'level', )
 
 
 class ResumeExperienceForm(forms.ModelForm):
     class Meta:
         model = models.ResumeExperience
-        fields = '__all__'
+        fields = ('company', 'start_date', 'end_date', 'working_now', )

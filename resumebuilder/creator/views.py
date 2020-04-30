@@ -29,7 +29,9 @@ def create_resume_education(request, resume_id):
     if request.method == 'POST':
         form = forms.ResumeEducationForm(request.POST)
         if form.is_valid():
-            form.save()
+            education = form.save(commit=False)
+            education.resume = resume
+            education.save()
             form = forms.ResumeEducationForm()
 
     return render(request, 'create_resume_education.html',
@@ -46,7 +48,9 @@ def create_resume_skill(request, resume_id):
     if request.method == 'POST':
         form = forms.ResumeSkillForm(request.POST)
         if form.is_valid():
-            form.save()
+            skill = form.save(commit=False)
+            skill.resume = resume
+            skill.save()
             form = forms.ResumeSkillForm()
 
     return render(request, 'create_resume_skill.html',
@@ -63,7 +67,10 @@ def create_resume_experience(request, resume_id):
     if request.method == 'POST':
         form = forms.ResumeExperienceForm(request.POST)
         if form.is_valid():
-            form.save()
+            print("form is valid")
+            experience = form.save(commit=False)
+            experience.resume = resume
+            experience.save()
             form = forms.ResumeExperienceForm()
 
     return render(request, 'create_resume_experience.html',
