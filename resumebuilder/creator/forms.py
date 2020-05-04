@@ -15,6 +15,7 @@ class ResumeEducationForm(forms.ModelForm):
 
 
 class ResumeSkillForm(forms.ModelForm):
+
     class Meta:
         model = models.ResumeSkill
         fields = ('skill', 'level', )
@@ -24,3 +25,6 @@ class ResumeExperienceForm(forms.ModelForm):
     class Meta:
         model = models.ResumeExperience
         fields = ('company', 'start_date', 'end_date', 'working_now', )
+        widgets ={
+            'working_now': forms.NullBooleanSelect
+        }
