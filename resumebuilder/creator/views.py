@@ -1,10 +1,13 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from . import forms
 from . import models
 from django.urls import reverse
 
 
+@login_required
 def create_resume(request):
     form = forms.ResumeForm()
     if request.method == 'POST':
@@ -77,3 +80,19 @@ def create_resume_experience(request, resume_id):
                   {'form': form,
                    'experiences': experiences,
                    'resume_id': resume.id})
+
+
+@login_required()
+def logout_view(request):
+    logout(request)
+    return redirect('/')
+
+
+def register_view(request):
+    form = forms.RegisterForm()
+    if request.method == 'POST':
+        form = forms.RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('creator:login'))
+    return render(request, 'registration/register.html', {'form': form})
