@@ -18,12 +18,14 @@ def create_resume(request):
     return render(request, 'create_resume.html', {'form': form})
 
 
+@login_required()
 def edit_resume(request, resume_id):
     resume = get_object_or_404(models.Resume, id=resume_id)
     form = forms.ResumeForm(instance=resume)
     return render(request, 'create_resume.html', {'form': form})
 
 
+@login_required()
 def create_resume_education(request, resume_id):
     resume = get_object_or_404(models.Resume, id=resume_id)
     educations = models.ResumeEducation.objects.filter(resume=resume)
@@ -43,6 +45,7 @@ def create_resume_education(request, resume_id):
                    'resume_id': resume.id})
 
 
+@login_required()
 def create_resume_skill(request, resume_id):
     resume = get_object_or_404(models.Resume, id=resume_id)
     skills = models.ResumeSkill.objects.filter(resume=resume)
@@ -62,6 +65,7 @@ def create_resume_skill(request, resume_id):
                    'resume_id': resume.id})
 
 
+@login_required()
 def create_resume_experience(request, resume_id):
     resume = get_object_or_404(models.Resume, id=resume_id)
     experiences = models.ResumeExperience.objects.filter(resume=resume)
@@ -96,3 +100,20 @@ def register_view(request):
             form.save()
             return HttpResponseRedirect(reverse('creator:login'))
     return render(request, 'registration/register.html', {'form': form})
+
+
+@login_required()
+def view_profile(request):
+    user = request.user
+    return render(request, 'registration/profile.html', {'user': user})
+
+
+@login_required()
+def edit_profile(request):
+    form = forms.EditProfileForm(instance=request.user)
+    if request.method == 'POST':
+        form = forms.EditProfileForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('creator:profile'))
+    return render(request, 'registration/edit_profile.html', {'form': form})
