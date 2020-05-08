@@ -5,6 +5,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from . import forms
 from . import models
 from django.urls import reverse
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 
 
 @login_required
@@ -117,3 +119,15 @@ def edit_profile(request):
             form.save()
             return HttpResponseRedirect(reverse('creator:profile'))
     return render(request, 'registration/edit_profile.html', {'form': form})
+
+
+@login_required()
+def change_password(request):
+    form = PasswordChangeForm(user=request.user)
+    if request.method == 'POST':
+        form = PasswordChangeForm(data=request.POST, user=request.user)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            return HttpResponseRedirect(reverse('creator:profile'))
+    return render(request, 'registration/change_password.html', {'form': form})
