@@ -8,7 +8,7 @@ from . import models
 class ResumeForm(forms.ModelForm):
     class Meta:
         model = models.Resume
-        fields = '__all__'
+        exclude = ('user',)
 
 
 class ResumeEducationForm(forms.ModelForm):

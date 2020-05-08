@@ -15,7 +15,9 @@ def create_resume(request):
     if request.method == 'POST':
         form = forms.ResumeForm(request.POST, request.FILES)
         if form.is_valid():
-            resume = form.save()
+            resume = form.save(commit=False)
+            resume.user = request.user
+            resume.save()
             return HttpResponseRedirect(reverse('creator:edit_resume', args=(resume.id, )))
     return render(request, 'create_resume.html', {'form': form})
 
