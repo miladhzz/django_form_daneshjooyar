@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from django.forms import formset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from . import forms
@@ -56,17 +57,19 @@ def create_resume_skill(request, resume_id):
     resume = get_object_or_404(models.Resume, id=resume_id)
     skills = models.ResumeSkill.objects.filter(resume=resume)
     print(skills)
-    form = forms.ResumeSkillForm()
+    resume_skill_formset = formset_factory(forms.ResumeSkillForm, extra=3)
+    formset = resume_skill_formset()
     if request.method == 'POST':
-        form = forms.ResumeSkillForm(request.POST)
-        if form.is_valid():
-            skill = form.save(commit=False)
-            skill.resume = resume
-            skill.save()
-            form = forms.ResumeSkillForm()
+        formset = resume_skill_formset(request.POST)
+        if formset.is_valid():
+            for form in formset:
+                skill = form.save(commit=False)
+                skill.resume = resume
+                skill.save()
+                formset = resume_skill_formset()
 
     return render(request, 'create_resume_skill.html',
-                  {'form': form,
+                  {'formset': formset,
                    'skills': skills,
                    'resume_id': resume.id})
 
