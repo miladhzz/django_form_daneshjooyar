@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import formset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
@@ -8,22 +9,35 @@ from . import models
 from django.urls import reverse
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+from django.views.generic import CreateView
 
 
-@login_required
-def create_resume(request):
-    form = forms.ResumeForm()
-    if request.method == 'POST':
-        form = forms.ResumeForm(request.POST, request.FILES)
-        if form.is_valid():
-            resume = form.save(commit=False)
-            resume.user = request.user
-            resume.name = request.user.first_name
-            resume.family = request.user.last_name
-            resume.save()
-            return HttpResponseRedirect(reverse('creator:edit_resume', args=(resume.id, )))
-    return render(request, 'create_resume.html', {'form': form})
+# @login_required
+# def create_resume(request):
+#     form = forms.ResumeForm()
+#     if request.method == 'POST':
+#         form = forms.ResumeForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             resume = form.save(commit=False)
+#             resume.user = request.user
+#             resume.name = request.user.first_name
+#             resume.family = request.user.last_name
+#             resume.save()
+#             return HttpResponseRedirect(reverse('creator:edit_resume', args=(resume.id, )))
+#     return render(request, 'create_resume.html', {'form': form})
 
+class CreateResume(LoginRequiredMixin, CreateView):
+    form_class = forms.ResumeForm
+    template_name = 'create_resume.html'
+
+    def get_success_url(self):
+        return reverse('creator:edit_resume', args=(self.object.id, ))
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.name = self.request.user.first_name
+        form.instance.family = self.request.user.last_name
+        return super().form_valid(form)
 
 @login_required()
 def edit_resume(request, resume_id):
